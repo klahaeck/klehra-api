@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { CalendarService } from './calendar.service';
 import { CalendarEvent } from '../ical/ical.service';
 
@@ -7,7 +7,10 @@ export class CalendarController {
   constructor(private readonly calendarService: CalendarService) {}
 
   @Get('events')
-  async getCalendarEvents(): Promise<CalendarEvent[]> {
-    return await this.calendarService.getCalendarEvents();
+  getEvents(
+    @Query('start') start?: string,
+    @Query('end') end?: string,
+  ): Promise<CalendarEvent[]> {
+    return this.calendarService.getCalendarEvents(start, end);
   }
 }
